@@ -1,7 +1,7 @@
 package com.dongjae.dev.effectivecodingstudy.oauth2;
 
-import com.memil.setting.entity.User;
-import com.memil.setting.repository.UserRepository;
+import com.dongjae.dev.effectivecodingstudy.entity.User;
+import com.dongjae.dev.effectivecodingstudy.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;

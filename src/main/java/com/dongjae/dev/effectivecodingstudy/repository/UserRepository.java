@@ -1,6 +1,6 @@
 package com.dongjae.dev.effectivecodingstudy.repository;
 
-import com.memil.setting.entity.User;
+import com.dongjae.dev.effectivecodingstudy.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

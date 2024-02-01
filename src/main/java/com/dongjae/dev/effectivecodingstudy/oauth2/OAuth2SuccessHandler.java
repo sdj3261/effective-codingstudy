@@ -1,7 +1,7 @@
 package com.dongjae.dev.effectivecodingstudy.oauth2;
 
-import com.memil.setting.AccessToken;
-import com.memil.setting.auth.SecretKey;
+import com.dongjae.dev.effectivecodingstudy.auth.AccessToken;
+import com.dongjae.dev.effectivecodingstudy.auth.SecretKey;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
