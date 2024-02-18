@@ -22,7 +22,7 @@ public class OAuth2Attribute {
     private String provider;
 
     public static OAuth2Attribute of(String provider, Map<String, Object> attributes) {
-        // MEMIL 다른 서비스를 추가할 예정이라면 이곳에 추가한 뒤, of 메소드를 구현하세요
+        // 다른 서비스를 추가할 예정이라면 이곳에 추가한 뒤, of 메소드를 구현하세요
         switch (provider) {
             case "google":
                 return ofGoogle(attributes);

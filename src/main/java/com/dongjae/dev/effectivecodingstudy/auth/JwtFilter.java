@@ -52,17 +52,15 @@ public class JwtFilter extends OncePerRequestFilter {
         String token = resolveToken(request);
 
         // 디코딩할만한 토큰이 왔으면
-        // if 블록 잘못 없으면 permitAll 주소에서 오류나요 ㅋㅋㅋ
         if (token != null) {
             // header의 token로 token, key를 포함하는 새로운 JwtAuthToken 만들기
             AccessToken accessToken = new AccessToken(token, secretKey.getKey());
             Claims claims = accessToken.getData();
 
             // 유저 객체 생성
-            // MEMIL 커스텀한 유저 클래스입니다
+            // 커스텀한 유저 클래스입니다
             UserPrincipal user = (UserPrincipal) userDetailsService.loadUserByUsername(claims.getSubject());
 
-            // MEMIL principal로 위 UserPrincipal 객체를 넘깁니다.
             Authentication authentication = new UsernamePasswordAuthenticationToken(
                     user,
                     null,
