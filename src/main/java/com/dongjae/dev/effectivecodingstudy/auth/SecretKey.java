@@ -3,6 +3,7 @@ package com.dongjae.dev.effectivecodingstudy.auth;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,7 @@ public class SecretKey {
     // yml 변수 들고오기
     @Value("${secret}")
     private String secret;
+    @Getter
     private Key key;
 
     @PostConstruct // 의존성 주입 후 초기화
@@ -22,9 +24,5 @@ public class SecretKey {
         byte[] keyBytes = Decoders.BASE64.decode(secret);
         // byte[]로 Key 생성
         this.key = Keys.hmacShaKeyFor(keyBytes);
-    }
-
-    public Key getKey(){
-        return this.key;
     }
 }

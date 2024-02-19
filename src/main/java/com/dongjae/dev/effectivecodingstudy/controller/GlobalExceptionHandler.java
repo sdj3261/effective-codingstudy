@@ -1,5 +1,6 @@
 package com.dongjae.dev.effectivecodingstudy.controller;
 
+import com.dongjae.dev.effectivecodingstudy.common.ErrorCode;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,14 +12,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.HashMap;
 import java.util.Map;
 
-// 예외처리
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler({UsernameNotFoundException.class})
     public HttpEntity<Map<String, String>> handleUsernameNotFoundException(Exception e){
         Map<String, String> map = new HashMap<>();
-        map.put("errorCode", "B002"); // 아이디 틀림
+        map.put("errorCode", ErrorCode.LOGIN_INVALID.getCode()); // 아이디 틀림
         map.put("msg", e.getMessage());
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -28,7 +28,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({BadCredentialsException.class})
     public HttpEntity<Map<String, String>> handleBadCredentialsException(Exception e){
         Map<String, String> map = new HashMap<>();
-        map.put("errorCode", "B002"); // 비번 틀림
+        map.put("errorCode", ErrorCode.LOGIN_INVALID.getCode());
         map.put("msg", e.getMessage());
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)

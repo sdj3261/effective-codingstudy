@@ -1,5 +1,6 @@
 package com.dongjae.dev.effectivecodingstudy.auth;
 
+import com.dongjae.dev.effectivecodingstudy.common.ErrorCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
@@ -17,7 +18,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-// MEMIL 인증 관련 Exception 처리를 위한 필터입니다
+// 인증 관련 Exception 처리를 위한 필터입니다
 // 필터를 두 개 만들기 싫다면, JwtFilter의 doFilterInternal 코드를 try-catch로 감아줘도 됩니다.
 
 @Component
@@ -28,7 +29,6 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
-            // go to 'JwtAuthenticationFilter'
             filterChain.doFilter(request, response);
         } catch (ExpiredJwtException e) {
             setErrorResponse(response, "ACCESS_TOKEN_EXPIRED");
@@ -36,7 +36,7 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
             log.debug("JWT EXCEPTION FILTER");
             setErrorResponse(response, "INVALID JWT TOKEN");
         } catch (JwtException | SecurityException e){
-            setErrorResponse(response, "CANNOT LOGIN");
+            setErrorResponse(response, "[JWt Exception] CANNOT LOGIN");
         }
     }
 
@@ -45,7 +45,7 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
         response.setContentType("application/json; charset=UTF-8");
 
         Map<String, String> map = new HashMap<>();
-        map.put("errorCode", "B001"); // MEMIL 프론트에서 로그아웃 유도로 사용할 코드입니다. 이왕이면 ENUM으로 관리하세요!
+        map.put("ErrorCode", ErrorCode.LOGOUT_INDUCED.name()); // MEMIL 프론트에서 로그아웃 유도로 사용할 코드입니다. 이왕이면 ENUM으로 관리하세요!
         map.put("msg", msg);
 
         response.getWriter().write(objectMapper.writeValueAsString(map));

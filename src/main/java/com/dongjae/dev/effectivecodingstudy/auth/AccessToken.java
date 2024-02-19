@@ -21,20 +21,16 @@ import java.util.Optional;
 
 @Getter
 public class AccessToken {
-    // 만료 시간(300분 후)
+    // 만료 시간(하루)
     public static final int EXPIRED_AFTER = 1440;
-
     // 암호화된 token
     private final String token;
-
-    // key
     private final Key key;
 
     // 만료 일자
     private Instant expiredAt;
 
     // AccessToken 생성자
-    // UserPrincipal로 만들도록 수정
     public AccessToken(UserPrincipal user, Key key) {
         Instant expiredDate = Instant.now().plus(24, ChronoUnit.HOURS);
 
@@ -47,7 +43,7 @@ public class AccessToken {
 
         this.key = key;
         this.expiredAt = expiredAt;
-        this.token = createJwtAuthToken(user.getUsername(), claims, expiredDate).get();
+        this.token = createJwtAuthToken(user.getUsername(), claims, Date.from(expiredDate)).get();
     }
 
     //JWT 적용
@@ -66,7 +62,7 @@ public class AccessToken {
         this.key = key;
     }
 
-    // JWT 디코딩
+    // JWT디코딩
     public Claims getData() throws ExpiredJwtException {
         return Jwts
                 .parserBuilder()

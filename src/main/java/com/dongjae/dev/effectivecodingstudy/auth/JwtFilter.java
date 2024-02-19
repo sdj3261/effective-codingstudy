@@ -33,7 +33,7 @@ public class JwtFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
 
     private String resolveToken(HttpServletRequest request) {
-        // Request header에서 토큰 가져오기
+        // Authorization
         String token = request.getHeader(AUTHORIZATION_HEADER);
 
         // 공백 혹은 null이 아니고 Bearer로 시작하면
@@ -47,18 +47,16 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        log.debug("*** JWT FILTER *** 주소: {}", request.getRequestURL());
+        log.debug("*** JWT FILTER 작동 *** 주소: {}", request.getRequestURL());
 
         String token = resolveToken(request);
 
-        // 디코딩할만한 토큰이 왔으면
+        // 디코딩할만한 토큰이 왔으면 인증시작
         if (token != null) {
             // header의 token로 token, key를 포함하는 새로운 JwtAuthToken 만들기
             AccessToken accessToken = new AccessToken(token, secretKey.getKey());
+            //토큰에서 유저이름 가져오기
             Claims claims = accessToken.getData();
-
-            // 유저 객체 생성
-            // 커스텀한 유저 클래스입니다
             UserPrincipal user = (UserPrincipal) userDetailsService.loadUserByUsername(claims.getSubject());
 
             Authentication authentication = new UsernamePasswordAuthenticationToken(
@@ -67,7 +65,7 @@ public class JwtFilter extends OncePerRequestFilter {
                     Collections.singleton(new SimpleGrantedAuthority("USER")));
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            log.debug("user pk: {} 인증 성공!", claims.get("aud"));
+            log.debug("user pk: {} 인증 성공!", claims.getSubject());
         }
 
         filterChain.doFilter(request, response);
