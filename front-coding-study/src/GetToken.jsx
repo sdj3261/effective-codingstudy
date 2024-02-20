@@ -13,7 +13,7 @@ const GetToken = () => {
     }
 
     useEffect(() => {
-        setUser();
+        setUser().then(r => console.log(r));
     }, [])
 
     return (

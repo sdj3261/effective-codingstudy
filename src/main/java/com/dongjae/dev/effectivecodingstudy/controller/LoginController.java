@@ -3,6 +3,7 @@ package com.dongjae.dev.effectivecodingstudy.controller;
 import com.dongjae.dev.effectivecodingstudy.auth.AccessToken;
 import com.dongjae.dev.effectivecodingstudy.auth.SecretKey;
 import com.dongjae.dev.effectivecodingstudy.dto.request.LoginRequest;
+import com.dongjae.dev.effectivecodingstudy.dto.response.LoginResponse;
 import com.dongjae.dev.effectivecodingstudy.entity.User;
 import com.dongjae.dev.effectivecodingstudy.oauth2.UserPrincipal;
 import com.dongjae.dev.effectivecodingstudy.repository.UserRepository;
@@ -32,7 +33,7 @@ public class LoginController {
     private final SecretKey secretKey;
 
     @PostMapping("/login")
-    public Map<String, String> login(@RequestBody LoginRequest request) {
+    public LoginResponse login(@RequestBody LoginRequest request) {
         User user = userRepository.findByUsername(request.username()).
                 orElseThrow(() -> new UsernameNotFoundException("WRONG USERNAME"));
 
@@ -49,14 +50,10 @@ public class LoginController {
         //서버 비밀키로 userPrincipal 객체를 통해 엑세스토큰 만들기
         String accessToken = new AccessToken(userPrincipal, secretKey.getKey()).getToken();
 
-        Map<String, String> response = new HashMap<>();
-
-        response.put("username", user.getUsername());
-        response.put("accessToken", accessToken); // AccessToken 추가
-        response.put("message", "로그인 성공");
+        LoginResponse loginResponse = new LoginResponse(user.getUsername(),accessToken,"로그인 성공");
 
 
-        return response;
+        return loginResponse;
     }
 
     // /auth/** 모양의 주소는 모두 인증 필요

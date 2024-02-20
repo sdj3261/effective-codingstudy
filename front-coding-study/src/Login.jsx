@@ -16,7 +16,6 @@ const Login = () => {
 
         try {
             const res = await axios.post(`${process.env.REACT_APP_API}/login`, login);
-
             console.log("res", res.data);
             localStorage.setItem("accessToken", res.data.accessToken); // access token 저장
             setLoginMsg(res.data.message);
