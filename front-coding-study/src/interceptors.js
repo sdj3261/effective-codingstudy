@@ -27,7 +27,7 @@ authAxios.interceptors.response.use(
     (error) => {
         // 로그아웃 시켜야 할 에러코드
         if(error.response.data.errorCode === "A001"){
-            alert(error.response.data.msg);
+            alert(error.response.error.message);
             localStorage.clear();
             window.location.replace('/');
         }

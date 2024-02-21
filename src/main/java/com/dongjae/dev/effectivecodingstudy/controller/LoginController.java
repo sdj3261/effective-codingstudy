@@ -2,7 +2,10 @@ package com.dongjae.dev.effectivecodingstudy.controller;
 
 import com.dongjae.dev.effectivecodingstudy.auth.AccessToken;
 import com.dongjae.dev.effectivecodingstudy.auth.SecretKey;
+import com.dongjae.dev.effectivecodingstudy.common.ErrorCode;
+import com.dongjae.dev.effectivecodingstudy.common.model.ErrorEntity;
 import com.dongjae.dev.effectivecodingstudy.dto.request.LoginRequest;
+import com.dongjae.dev.effectivecodingstudy.dto.response.AuthResponse;
 import com.dongjae.dev.effectivecodingstudy.dto.response.LoginResponse;
 import com.dongjae.dev.effectivecodingstudy.entity.User;
 import com.dongjae.dev.effectivecodingstudy.oauth2.UserPrincipal;
@@ -49,21 +52,18 @@ public class LoginController {
 
         //서버 비밀키로 userPrincipal 객체를 통해 엑세스토큰 만들기
         String accessToken = new AccessToken(userPrincipal, secretKey.getKey()).getToken();
-
-        LoginResponse loginResponse = new LoginResponse(user.getUsername(),accessToken,"로그인 성공");
-
-
-        return loginResponse;
+        return LoginResponse.builder().
+                username(user.getUsername()).
+                accessToken(accessToken).
+                message("로그인 성공")
+                .build();
     }
 
     // /auth/** 모양의 주소는 모두 인증 필요
     @GetMapping("/auth/test")
-    public Map<String, Object> authTest(@AuthenticationPrincipal UserPrincipal user){
-        log.debug("user: {}", user);
-
-        Map<String, Object> map = new HashMap<>();
-        map.put("authTest", user);
-
-        return map;
+    public AuthResponse authTest(@AuthenticationPrincipal UserPrincipal user){
+        return AuthResponse.builder().
+                authTest(user).
+                build();
     }
 }

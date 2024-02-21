@@ -45,7 +45,7 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
         response.setContentType("application/json; charset=UTF-8");
 
         Map<String, String> map = new HashMap<>();
-        map.put("ErrorCode", ErrorCode.LOGOUT_INDUCED.name()); // MEMIL 프론트에서 로그아웃 유도로 사용할 코드입니다. 이왕이면 ENUM으로 관리하세요!
+        map.put("ErrorCode", ErrorCode.LOGOUT_INDUCED.name()); // 프론트에서 로그아웃 유도로 사용할 코드입니다.
         map.put("msg", msg);
 
         response.getWriter().write(objectMapper.writeValueAsString(map));
