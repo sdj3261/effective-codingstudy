@@ -1,14 +1,14 @@
 package com.dongjae.dev.effectivecodingstudy.controllers;
 
 import com.dongjae.dev.effectivecodingstudy.common.model.BaseResponse;
-import com.dongjae.dev.effectivecodingstudy.security.AccessToken;
-import com.dongjae.dev.effectivecodingstudy.security.SecretKey;
 import com.dongjae.dev.effectivecodingstudy.dto.request.LoginRequest;
 import com.dongjae.dev.effectivecodingstudy.dto.response.AuthResponse;
 import com.dongjae.dev.effectivecodingstudy.dto.response.LoginResponse;
 import com.dongjae.dev.effectivecodingstudy.domain.User;
 import com.dongjae.dev.effectivecodingstudy.oauth2.UserPrincipal;
 import com.dongjae.dev.effectivecodingstudy.repository.UserRepository;
+import com.dongjae.dev.effectivecodingstudy.utils.AccessTokenGenerator;
+import com.nimbusds.oauth2.sdk.token.AccessToken;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -20,6 +20,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.crypto.SecretKey;
 import java.util.Collections;
 
 @RestController
@@ -28,7 +29,7 @@ import java.util.Collections;
 public class LoginController {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final SecretKey secretKey;
+    private final AccessTokenGenerator accessTokenGenerator;
 
     @PostMapping("/login")
     public BaseResponse<LoginResponse> login(@RequestBody LoginRequest request) {
@@ -46,7 +47,7 @@ public class LoginController {
         SecurityContextHolder.getContext().setAuthentication(token);
 
         //서버 비밀키로 userPrincipal 객체를 통해 엑세스토큰 만들기
-        String accessToken = new AccessToken(userPrincipal, secretKey.getKey()).getToken();
+        String accessToken = accessTokenGenerator.generateAccessToken(userPrincipal.getUserId().toString());
         return BaseResponse.success(LoginResponse.builder().
                 username(user.getUsername()).
                 accessToken(accessToken).

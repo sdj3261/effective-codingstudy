@@ -1,7 +1,8 @@
 package com.dongjae.dev.effectivecodingstudy.security;
 
 import com.dongjae.dev.effectivecodingstudy.oauth2.UserPrincipal;
-import io.jsonwebtoken.Claims;
+import com.dongjae.dev.effectivecodingstudy.utils.AccessTokenGenerator;
+import com.nimbusds.oauth2.sdk.token.AccessToken;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import javax.crypto.SecretKey;
 import java.io.IOException;
 import java.util.Collections;
 
@@ -27,8 +29,8 @@ import java.util.Collections;
 public class JwtFilter extends OncePerRequestFilter {
     public static final String AUTHORIZATION_HEADER = "Authorization";
     public static final String BEARER_PREFIX = "Bearer ";
-    private final SecretKey secretKey;
     private final UserDetailsService userDetailsService;
+    private final AccessTokenGenerator accessTokenGenerator;
 
     private String resolveToken(HttpServletRequest request) {
         // Authorization Header
@@ -52,10 +54,8 @@ public class JwtFilter extends OncePerRequestFilter {
         // 디코딩할만한 토큰이 왔으면 인증시작
         if (token != null) {
             // header의 token로 token, key를 포함하는 새로운 JwtAuthToken 만들기
-            AccessToken accessToken = new AccessToken(token, secretKey.getKey());
-            //토큰에서 유저이름 가져오기
-            Claims claims = accessToken.getData();
-            UserPrincipal user = (UserPrincipal) userDetailsService.loadUserByUsername(claims.getSubject());
+            String username = accessTokenGenerator.getUserNameFromToken(token);
+            UserPrincipal user = (UserPrincipal) userDetailsService.loadUserByUsername(username);
 
             Authentication authentication = new UsernamePasswordAuthenticationToken(
                     user,
@@ -63,7 +63,7 @@ public class JwtFilter extends OncePerRequestFilter {
                     Collections.singleton(new SimpleGrantedAuthority("USER")));
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            log.debug("user pk: {} 인증 성공!", claims.getSubject());
+            log.debug("user pk: {} 인증 성공!", username);
         }
 
         filterChain.doFilter(request, response);

@@ -1,18 +1,18 @@
 package com.dongjae.dev.effectivecodingstudy.security;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.dongjae.dev.effectivecodingstudy.common.ErrorCode;
 import com.dongjae.dev.effectivecodingstudy.common.model.BaseResponse;
 import com.dongjae.dev.effectivecodingstudy.common.model.ErrorResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -30,9 +30,9 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
             filterChain.doFilter(request, response);
-        } catch (ExpiredJwtException e) {
+        } catch (TokenExpiredException e) {
             setErrorResponse(response, "ACCESS_TOKEN_EXPIRED");
-        } catch (MalformedJwtException e) {
+        } catch (JWTVerificationException e) {
             log.debug("JWT EXCEPTION FILTER");
             setErrorResponse(response, "INVALID JWT TOKEN");
         } catch (JwtException | SecurityException e){
