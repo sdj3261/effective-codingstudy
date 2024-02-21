@@ -1,6 +1,7 @@
 package com.dongjae.dev.effectivecodingstudy.user.oauth2;
 
 import com.dongjae.dev.effectivecodingstudy.user.auth.AccessToken;
+import com.dongjae.dev.effectivecodingstudy.user.auth.RefreshToken;
 import com.dongjae.dev.effectivecodingstudy.user.auth.SecretKey;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,6 +30,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         // access 토큰 생성
         String accessToken = new AccessToken(user, secretKey.getKey()).getToken();
+        String refreshToken = new RefreshToken(user, secretKey.getKey()).getToken();
         getRedirectStrategy().sendRedirect(request, response, TARGET_URL + accessToken);
     }
 }

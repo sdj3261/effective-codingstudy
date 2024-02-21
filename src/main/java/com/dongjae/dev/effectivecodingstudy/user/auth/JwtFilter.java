@@ -31,7 +31,7 @@ public class JwtFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
 
     private String resolveToken(HttpServletRequest request) {
-        // Authorization
+        // Authorization Header
         String token = request.getHeader(AUTHORIZATION_HEADER);
 
         // 공백 혹은 null이 아니고 Bearer로 시작하면

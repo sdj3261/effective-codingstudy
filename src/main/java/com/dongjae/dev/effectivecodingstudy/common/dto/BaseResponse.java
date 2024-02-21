@@ -5,25 +5,28 @@ import lombok.*;
 @Getter
 @Setter
 public class BaseResponse<T> {
-    private int status;
     private boolean success;
     private T data;
 
     public BaseResponse() {
     }
 
-    public BaseResponse(int status, boolean success, T data) {
-        this.status = status;
+    public BaseResponse(boolean success, T data) {
         this.success = success;
         this.data = data;
     }
 
     public static <T> BaseResponse<T> success(T data) {
-        return new BaseResponse<>(200, true, data);
+        return new BaseResponse<>(true, data);
     }
 
-    public static <T> BaseResponse<T> failure(int status, String message) {
-        return new BaseResponse<>(status, false, null);
+    public static BaseResponse<ErrorResponse> failure(String errorCode, String message, String details) {
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .errorCode(errorCode)
+                .message(message)
+                .details(details)
+                .build();
+        return new BaseResponse<>(false, errorResponse);
     }
 }
 

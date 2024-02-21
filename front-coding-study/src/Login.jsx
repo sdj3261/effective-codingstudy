@@ -3,7 +3,7 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 
 const Login = () => {
-    const [login, setLogin] = useState({username: 'tlsehdwo7@naver.com', password: 'loveyoumemil'});
+    const [login, setLogin] = useState({username: 'tlsehdwo7@naver.com', password: '1234'});
     const [loginMsg, setLoginMsg] = useState("");
     const navigate = useNavigate();
     const onChange = (e) => {
@@ -13,7 +13,6 @@ const Login = () => {
 
     const submit = async (e) => {
         e.preventDefault();
-
         try {
             const res = await axios.post(`${process.env.REACT_APP_API}/login`, login);
             console.log("res", res.data);
@@ -32,11 +31,11 @@ const Login = () => {
             <form onSubmit={(e) => submit(e)}>
                 <div>
                     <label>username: </label>
-                    <input name={"username"} defaultValue={"memil"} onChange={onChange}/>
+                    <input name={"username"} defaultValue={"1"} onChange={onChange}/>
                 </div>
                 <div>
                     <label>password: </label>
-                    <input name={"password"} defaultValue={"loveyoumemil"} onChange={onChange}/>
+                    <input name={"password"} defaultValue={"1"} onChange={onChange}/>
                 </div>
                 <br/>
                 <button type={"submit"}>로그인</button>
