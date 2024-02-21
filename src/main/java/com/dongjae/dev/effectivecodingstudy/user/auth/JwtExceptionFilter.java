@@ -45,11 +45,7 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
     public void setErrorResponse(HttpServletResponse response, String msg) throws IOException {
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType("application/json; charset=UTF-8");
-
-        BaseResponse<ErrorResponse> baseResponse = BaseResponse.failure(HttpStatus.UNAUTHORIZED.value(),)
-        map.put("ErrorCode", ErrorCode.LOGOUT_INDUCED.getCode()); // 프론트에서 로그아웃 유도로 사용할 코드입니다.
-        map.put("msg", msg);
-
-        response.getWriter().write(objectMapper.writeValueAsString(map));
+        BaseResponse<ErrorResponse> baseResponse = BaseResponse.failure(ErrorCode.LOGOUT_INDUCED.getCode(),msg,null);
+        response.getWriter().write(objectMapper.writeValueAsString(baseResponse));
     }
 }
