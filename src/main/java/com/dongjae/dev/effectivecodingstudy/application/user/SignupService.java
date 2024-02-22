@@ -1,9 +1,13 @@
 package com.dongjae.dev.effectivecodingstudy.application.user;
 
 import com.dongjae.dev.effectivecodingstudy.application.exceptions.UserAlreadyExistsException;
+import com.dongjae.dev.effectivecodingstudy.domain.User;
+import com.dongjae.dev.effectivecodingstudy.domain.UserId;
+import com.dongjae.dev.effectivecodingstudy.dto.response.SignupResponse;
 import com.dongjae.dev.effectivecodingstudy.infrastructure.UserDetailsDao;
-import com.dongjae.dev.effectivecodingstudy.utils.AccessTokenGenerator;
-import io.hypersistence.tsid.TSID;
+import com.dongjae.dev.effectivecodingstudy.repository.UserQueryRepository;
+import com.dongjae.dev.effectivecodingstudy.repository.UserRepository;
+import com.dongjae.dev.effectivecodingstudy.utils.TokenGenerator;
 import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -11,30 +15,38 @@ import org.springframework.stereotype.Service;
 @Service
 @Transactional
 public class SignupService {
-    private final AccessTokenGenerator accessTokenGenerator;
+    private final TokenGenerator tokenGenerator;
     private final PasswordEncoder passwordEncoder;
-    private final UserDetailsDao userDetailsDao;
+    private final UserRepository userRepository;
 
-    public SignupService(AccessTokenGenerator accessTokenGenerator,
+    public SignupService(TokenGenerator tokenGenerator,
                          PasswordEncoder passwordEncoder,
-                         UserDetailsDao userDetailsDao) {
-        this.accessTokenGenerator = accessTokenGenerator;
+                         UserRepository userRepository) {
+        this.tokenGenerator = tokenGenerator;
         this.passwordEncoder = passwordEncoder;
-        this.userDetailsDao = userDetailsDao;
+        this.userRepository = userRepository;
     }
 
-    public String signup(String username, String password) {
-        if (userDetailsDao.existsByUsername(username)) {
-            throw new UserAlreadyExistsException();
-        }
+    public SignupResponse signup(String username, String password) {
+        userRepository.findByUsername(username)
+                .ifPresent(u -> {
+                    throw new UserAlreadyExistsException("User already exists");
+                });
 
-        String id = TSID.Factory.getTsid().toString();
         String encodedPassword = passwordEncoder.encode(password);
-        String accessToken = accessTokenGenerator.generateAccessToken(id);
+        UserId userId = UserId.generate();
+        User user = User.builder()
+                .userId(userId)
+                .username(username)
+                .password(encodedPassword)
+                .build();
 
-        userDetailsDao.addUser(id, username, encodedPassword);
-        userDetailsDao.addAccessToken(id, accessToken);
+        userRepository.save(user);
+        String accessToken = tokenGenerator.generateAccessToken(userId.toString());
 
-        return accessToken;
+        return SignupResponse.builder().
+                username(username).
+                accessToken(accessToken).
+                build();
     }
 }

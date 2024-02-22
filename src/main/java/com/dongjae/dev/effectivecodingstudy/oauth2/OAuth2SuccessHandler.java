@@ -1,6 +1,6 @@
 package com.dongjae.dev.effectivecodingstudy.oauth2;
 import com.dongjae.dev.effectivecodingstudy.security.TokenService;
-import com.dongjae.dev.effectivecodingstudy.utils.AccessTokenGenerator;
+import com.dongjae.dev.effectivecodingstudy.utils.TokenGenerator;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,7 +16,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @Component
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
-    private final AccessTokenGenerator accessTokenGenerator;
+    private final TokenGenerator tokenGenerator;
     private final TokenService tokenService;
     private final String TARGET_URL = "http://localhost:3000/oauth/";
 
@@ -27,14 +27,15 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         UserPrincipal user = (UserPrincipal) authentication.getPrincipal();
 
         // access 토큰 생성
-        String accessToken = accessTokenGenerator.generateAccessToken(user.getUsername());
-        String refreshToken = accessTokenGenerator.generateRefreshToken(user.getUsername());
+        String accessToken = tokenGenerator.generateAccessToken(user.getUsername());
+        String refreshToken = tokenGenerator.generateRefreshToken(user.getUsername());
         // Refresh Token DB에 저장
         tokenService.updateOrInsertRefreshToken(user.getUsername(), refreshToken);
 
         // Access Token , Refresh Token 프론트 단에 Response Header로 전달
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
+        response.setHeader("refresh", refreshToken);
         getRedirectStrategy().sendRedirect(request, response, TARGET_URL + accessToken);
     }
 }
