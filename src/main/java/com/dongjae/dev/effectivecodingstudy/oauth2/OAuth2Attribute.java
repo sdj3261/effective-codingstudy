@@ -1,6 +1,7 @@
 package com.dongjae.dev.effectivecodingstudy.oauth2;
 
 import com.dongjae.dev.effectivecodingstudy.domain.User;
+import com.dongjae.dev.effectivecodingstudy.domain.UserId;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -59,6 +60,7 @@ public class OAuth2Attribute {
     public User toEntity() {
         // 신규 가입 시 Attribute를 바탕으로 회원 엔티티 만들기
         return User.builder()
+                .userId(UserId.generate())
                 .username(this.getEmail())
                 .password(null)
                 .name(this.getName())

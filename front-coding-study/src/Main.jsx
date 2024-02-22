@@ -4,16 +4,18 @@ import authAxios from "./interceptors";
 import {useEffect, useState} from "react";
 
 const Main = () => {
-    const [loginUser, setLoginUser] = useState("");
+    const [loginUser, setLoginUser] = useState({});
     const navigate = useNavigate();
 
     // auth 필요한 API 테스트
     const componentDidMount = async () => {
         const res = (await authAxios.get("/auth/test")).data;
-        setLoginUser(() => res.authTest);
+        console.log(res)
+        setLoginUser(() => res);
     }
 
-    useEffect(() => {componentDidMount()}, []);
+    useEffect(() => {componentDidMount()
+    }, []);
 
     const logout = () => {
         localStorage.clear();
@@ -24,7 +26,7 @@ const Main = () => {
         <>
             <h1>메인 페이지</h1>
             <div>로그인 유저 정보</div>
-            <div>userPk: {loginUser.userId}</div>
+            {   console.log(loginUser)}
             <div>username: {loginUser.username}</div>
             <div>name: {loginUser.name}</div>
             <br />

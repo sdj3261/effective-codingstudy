@@ -4,5 +4,5 @@ import com.dongjae.dev.effectivecodingstudy.oauth2.UserPrincipal;
 import lombok.Builder;
 
 @Builder
-public record AuthResponse(UserPrincipal authTest)  {
+public record AuthResponse(String userId, String username, String name)  {
 }

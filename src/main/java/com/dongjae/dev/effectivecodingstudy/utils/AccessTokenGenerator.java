@@ -19,7 +19,7 @@ public class AccessTokenGenerator {
     private static final int ACCESS_TOKEN_EXPIRY_HOURS = 1; // 엑세스 토큰 유효 시간
     private static final int REFRESH_TOKEN_EXPIRY_DAYS = 7; // 리프레시 토큰 유효 시간
 
-    public AccessTokenGenerator(@Value("${jwt.secret}") String secret) {
+    public AccessTokenGenerator(@Value("${secret}") String secret) {
         this.algorithm = Algorithm.HMAC256(secret);
     }
 

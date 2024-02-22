@@ -59,7 +59,9 @@ public class LoginController {
     @GetMapping("/auth/test")
     public AuthResponse authTest(@AuthenticationPrincipal UserPrincipal user){
         return AuthResponse.builder().
-                authTest(user).
+                name(user.getName()).
+                username(user.getUsername()).
+                userId(user.getUserId().toString()).
                 build();
     }
 }

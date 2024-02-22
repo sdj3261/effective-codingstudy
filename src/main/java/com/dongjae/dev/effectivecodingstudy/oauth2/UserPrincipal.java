@@ -16,19 +16,20 @@ import java.util.*;
 
 @AllArgsConstructor
 @Builder
-@ToString(of={"userId", "name"})
+@ToString(of= {"userId"})
 @Getter
 public class UserPrincipal implements UserDetails, OAuth2User {
     private UserId userId;
+    private String username;
     private String name;
     private Map<String, Object> oauth2UserAttributes;
 
     public static UserPrincipal create(User user, Map<String, Object> oauth2UserAttributes) {
-        return new UserPrincipal(user.getUserId(), user.getUsername(), oauth2UserAttributes);
+        return new UserPrincipal(user.getUserId(), user.getUsername(), user.getName(), oauth2UserAttributes);
     }
 
     public static UserPrincipal create(User user) {
-        return new UserPrincipal(user.getUserId(), user.getUsername(), new HashMap<>());
+        return new UserPrincipal(user.getUserId(), user.getUsername(),user.getName(), new HashMap<>());
     }
 
     @Override
@@ -46,7 +47,7 @@ public class UserPrincipal implements UserDetails, OAuth2User {
 
     @Override
     public String getUsername() {
-        return String.valueOf(this.userId);
+        return this.username;
     }
 
     @Override
@@ -57,17 +58,17 @@ public class UserPrincipal implements UserDetails, OAuth2User {
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 
     @Override

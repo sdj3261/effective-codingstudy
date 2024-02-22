@@ -27,8 +27,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         UserPrincipal user = (UserPrincipal) authentication.getPrincipal();
 
         // access 토큰 생성
-        String accessToken = accessTokenGenerator.generateAccessToken(user.getUserId().toString());
-        String refreshToken = accessTokenGenerator.generateRefreshToken(user.getUserId().toString());
+        String accessToken = accessTokenGenerator.generateAccessToken(user.getUsername());
+        String refreshToken = accessTokenGenerator.generateRefreshToken(user.getUsername());
         // Refresh Token DB에 저장
         tokenService.updateOrInsertRefreshToken(user.getUsername(), refreshToken);
 

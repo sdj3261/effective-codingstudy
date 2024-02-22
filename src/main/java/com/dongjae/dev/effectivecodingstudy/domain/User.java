@@ -21,14 +21,16 @@ public class User {
     private String username;
     private String password;
     private String name;
-    private String refreshToken;
     private String provider;
     @CreationTimestamp
     private LocalDateTime createdAt;
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    public void updateRefreshToken(String newRefreshToken) {
-        this.refreshToken = newRefreshToken;
+    public User(UserId userId) {
+        this.userId = userId;
+    }
+    public static User create() {
+        return new User(UserId.generate());
     }
 }
