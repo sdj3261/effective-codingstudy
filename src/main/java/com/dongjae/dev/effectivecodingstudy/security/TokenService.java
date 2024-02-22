@@ -1,9 +1,12 @@
 package com.dongjae.dev.effectivecodingstudy.security;
 
+import com.dongjae.dev.effectivecodingstudy.application.exceptions.InvalidTokenException;
 import com.dongjae.dev.effectivecodingstudy.domain.Token;
+import com.dongjae.dev.effectivecodingstudy.dto.response.RefreshTokenResponse;
 import com.dongjae.dev.effectivecodingstudy.repository.TokenRepository;
 import com.dongjae.dev.effectivecodingstudy.utils.TokenGenerator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,20 +27,14 @@ public class TokenService {
         tokenRepository.save(token);
     }
 
-    public String validateRefreshToken(Token refreshToken){
-        // refresh 객체에서 refreshToken 추출
-        String token = refreshToken.getToken();
-
-        try {
-            tokenGenerator.verifyToken(token);
-        }catch (Exception e) {
-            //refresh 토큰이 만료되었을 경우, 로그인이 필요합니다.
-            return null;
-
+    public RefreshTokenResponse refreshAccessToken(String refreshToken) {
+        if (!tokenGenerator.verifyToken(refreshToken)) {
+            throw new InvalidTokenException("Invalid refresh token");
         }
-
-        return null;
-    }
+        String userId = tokenGenerator.getUserIdFromToken(refreshToken);
+        return RefreshTokenResponse.builder().
+                accessToken(tokenGenerator.generateAccessToken(userId)).
+                build();
     }
 }
 

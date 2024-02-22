@@ -46,7 +46,7 @@ public class TokenGenerator {
         }
     }
 
-    public String getUserNameFromToken(String token) {
+    public String getUserIdFromToken(String token) {
         DecodedJWT jwt = JWT.decode(token);
         return jwt.getSubject();
     }
