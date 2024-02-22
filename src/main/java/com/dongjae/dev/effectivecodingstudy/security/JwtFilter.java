@@ -52,7 +52,7 @@ public class JwtFilter extends OncePerRequestFilter {
         // 디코딩할만한 토큰이 왔으면 인증시작
         if (token != null) {
             // header의 token로 token, key를 포함하는 새로운 JwtAuthToken 만들기
-            String username = tokenGenerator.getUserNameFromToken(token);
+            String username = tokenGenerator.getUserIdFromToken(token);
             UserPrincipal user = (UserPrincipal) userDetailsService.loadUserByUsername(username);
 
             Authentication authentication = new UsernamePasswordAuthenticationToken(

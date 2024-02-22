@@ -2,6 +2,7 @@ package com.dongjae.dev.effectivecodingstudy.oauth2;
 import com.dongjae.dev.effectivecodingstudy.security.TokenService;
 import com.dongjae.dev.effectivecodingstudy.utils.TokenGenerator;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -32,10 +33,21 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         // Refresh Token DB에 저장
         tokenService.updateOrInsertRefreshToken(user.getUsername(), refreshToken);
 
+        setRefreshTokenCookie(response, refreshToken);
+
         // Access Token , Refresh Token 프론트 단에 Response Header로 전달
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
         response.setHeader("refresh", refreshToken);
         getRedirectStrategy().sendRedirect(request, response, TARGET_URL + accessToken);
+    }
+
+    private static void setRefreshTokenCookie(HttpServletResponse response, String refreshToken) {
+        // Refresh Token을 안전한 쿠키로 설정
+        Cookie refreshTokenCookie = new Cookie("refreshToken", refreshToken);
+        refreshTokenCookie.setHttpOnly(true); // JS를 통한 접근 방지
+        refreshTokenCookie.setPath("/"); // 전체 경로에서 쿠키 사용
+        refreshTokenCookie.setMaxAge(7 * 24 * 60 * 60); // 쿠키 유효 기간 설정 (예: 1주일)
+        response.addCookie(refreshTokenCookie);
     }
 }
