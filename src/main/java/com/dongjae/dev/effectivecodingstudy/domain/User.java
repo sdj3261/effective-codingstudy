@@ -1,5 +1,6 @@
 package com.dongjae.dev.effectivecodingstudy.domain;
 
+import com.dongjae.dev.effectivecodingstudy.common.model.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 @ToString(of = {"username"})
 @Getter
 @Builder
-public class User {
+public class User extends BaseEntity {
     @EmbeddedId
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UserId userId;
@@ -22,10 +23,6 @@ public class User {
     private String password;
     private String name;
     private String provider;
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
 
     public User(UserId userId) {
         this.userId = userId;

@@ -1,24 +1,19 @@
-import {useNavigate, useParams} from "react-router-dom";
-import {useEffect} from "react";
+import React, { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useAuth } from "./layout/AuthContext"; // 경로는 실제 경로에 맞게 조정해주세요.
 
 const GetToken = () => {
-    let {accessToken} = useParams();
+    let { accessToken } = useParams();
     const navigate = useNavigate();
-
-    console.log("accessToken", accessToken);
-
-    const setUser = async () => {
-        await localStorage.setItem("accessToken", accessToken);
-        navigate("/main", {replace: true});
-    }
+    const { login } = useAuth(); // useAuth 훅을 통해 login 함수에 접근
 
     useEffect(() => {
-        setUser();
-    }, [])
+        if (accessToken) {
+            login(accessToken).then(() => navigate("/main", { replace: true }));
+        }
+    }, [accessToken, login, navigate]);
 
-    return (
-        <></>
-    )
-}
+    return null; // 렌더링할 내용이 없는 경우 null 반환
+};
 
 export default GetToken;

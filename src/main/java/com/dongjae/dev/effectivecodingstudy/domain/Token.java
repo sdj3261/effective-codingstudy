@@ -1,18 +1,18 @@
 package com.dongjae.dev.effectivecodingstudy.domain;
 
+import com.dongjae.dev.effectivecodingstudy.common.model.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tokens")
-public class Token {
+public class Token extends BaseEntity {
     @Id
-    private String username; // 사용자 이름을 기본 키로 사용
-    private String token; // 리프레시 토큰 값
+    private String username;
+    private String token;
 
     public Token() {
-        // JPA는 기본 생성자를 필요로 합니다.
     }
 
     public Token(String username, String token) {
