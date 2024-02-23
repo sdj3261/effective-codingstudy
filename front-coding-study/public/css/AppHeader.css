@@ -1,0 +1,47 @@
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff; /* White background */
+    padding: 0 50px; /* Adjust padding as needed */
+    height: 64px; /* Default height for Ant Design Header */
+}
+
+.logo {
+    font-size: 24px; /* Large logo text */
+    font-weight: bold;
+    color: #1890ff; /* Ant Design primary color */
+}
+
+.search-input {
+    width: 300px; /* Fixed width for search input */
+}
+
+.header-menu .ant-menu-item {
+    padding: 0 15px; /* Adjust menu item padding */
+}
+
+.header-menu .ant-menu-item .ant-btn-primary {
+    background: #1890ff; /* Use a bright color for the 'Be Pro' button */
+    border-color: #1890ff;
+}
+
+/* Override default Ant Design styles for the header menu */
+.header-menu .ant-menu-horizontal {
+    border-bottom: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .app-header {
+        padding: 0 20px;
+    }
+
+    .search-input {
+        width: 200px; /* Smaller width for search input on mobile */
+    }
+
+    .header-menu {
+        display: none; /* Hide header menu on mobile */
+    }
+}
