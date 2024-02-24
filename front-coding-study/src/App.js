@@ -6,8 +6,11 @@ import {
     DesktopOutlined,
     PieChartOutlined,
     FileOutlined,
-    TeamOutlined,
+    ConsoleSqlOutlined,
+    LinkOutlined,
     UserOutlined,
+    NotificationOutlined,
+    MailOutlined
 } from '@ant-design/icons';
 import Login from "./Login";
 import Main from "./Main";
@@ -36,12 +39,29 @@ const App = () => (
                     <Menu.Item key="2" icon={<DesktopOutlined />}>
                         Algorithm
                     </Menu.Item>
-                    <SubMenu key="sub1" icon={<UserOutlined />} title="Team">
-                        <Menu.Item key="3">Team 1</Menu.Item>
-                        <Menu.Item key="4">Team 2</Menu.Item>
-                    </SubMenu>
-                    <Menu.Item key="5" icon={<FileOutlined />}>
+                    <Menu.Item key="3" icon={<ConsoleSqlOutlined />}>
+                        SQL
+                    </Menu.Item>
+                    <Menu.Item key="4" icon={<UserOutlined />}>
+                        GuestBook
+                    </Menu.Item>
+                    <Menu.Item key="5" icon={<MailOutlined/>}>
+                        Contact
+                    </Menu.Item>
+                    <Menu.Item key="6" icon={<NotificationOutlined/>}>
+                        Notification
+                    </Menu.Item>
+                    <Menu.Item key="7" icon={<FileOutlined />}>
                         File
+                    </Menu.Item>
+                    <Menu.Item key="8" icon={<LinkOutlined />}>
+                        Notion
+                    </Menu.Item>
+                    <Menu.Item key="9" icon={<LinkOutlined />}>
+                        Programmers
+                    </Menu.Item>
+                    <Menu.Item key="10" icon={<LinkOutlined />}>
+                        Baekjoon
                     </Menu.Item>
                 </Menu>
             </Sider>
@@ -63,7 +83,7 @@ const App = () => (
                     </div>
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>
-                    Ant Design ©2018 Created by Ant UED
+                    T DoDream. ©2024. Created by Ant UED
                 </Footer>
             </Layout>
         </Layout>

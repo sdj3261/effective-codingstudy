@@ -31,11 +31,11 @@ const Login = () => {
             <form onSubmit={(e) => submit(e)}>
                 <div>
                     <label>username: </label>
-                    <input name={"username"} defaultValue={"1"} onChange={onChange}/>
+                    <input name={"username"}  onChange={onChange}/>
                 </div>
                 <div>
                     <label>password: </label>
-                    <input name={"password"} defaultValue={"1"} onChange={onChange}/>
+                    <input name={"password"} type = {"password"}  onChange={onChange}/>
                 </div>
                 <br/>
                 <button type={"submit"}>로그인</button>
