@@ -1,5 +1,6 @@
 package com.dongjae.dev.effectivecodingstudy.domain;
 
+import com.dongjae.dev.effectivecodingstudy.application.exceptions.InvalidTokenException;
 import com.dongjae.dev.effectivecodingstudy.common.model.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -28,7 +29,13 @@ public class Token extends BaseEntity {
         return token;
     }
 
-    public void setToken(String token) {
+    public void updateToken(String token) {
         this.token = token;
+    }
+
+    public void validateSameToken(String token) {
+        if (!this.token.equals(token)) {
+            throw new InvalidTokenException("Token is Invalid");
+        }
     }
 }

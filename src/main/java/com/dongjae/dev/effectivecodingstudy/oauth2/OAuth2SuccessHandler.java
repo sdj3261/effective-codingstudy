@@ -28,17 +28,16 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         UserPrincipal user = (UserPrincipal) authentication.getPrincipal();
 
         // access 토큰 생성
-        String accessToken = tokenGenerator.generateAccessToken(user.getUsername());
-        String refreshToken = tokenGenerator.generateRefreshToken(user.getUsername());
+        String accessToken = tokenGenerator.generateAccessToken(user.getUserId().toString());
         // Refresh Token DB에 저장
-        tokenService.updateOrInsertRefreshToken(user.getUsername(), refreshToken);
+        String refreshToken = tokenService.getOrCreateRefreshToken(user.getUsername(), user.getUserId());
 
         setRefreshTokenCookie(response, refreshToken);
 
         // Access Token , Refresh Token 프론트 단에 Response Header로 전달
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
-        response.setHeader("refresh", refreshToken);
+        response.setHeader("Refresh-Token", refreshToken);
         getRedirectStrategy().sendRedirect(request, response, TARGET_URL + accessToken);
     }
 

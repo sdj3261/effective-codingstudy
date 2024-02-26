@@ -9,8 +9,11 @@ import com.dongjae.dev.effectivecodingstudy.dto.response.LoginResponse;
 import com.dongjae.dev.effectivecodingstudy.dto.response.RefreshTokenResponse;
 import com.dongjae.dev.effectivecodingstudy.oauth2.UserPrincipal;
 import com.dongjae.dev.effectivecodingstudy.security.TokenService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,8 +33,9 @@ public class SessionController {
     }
 
     @PostMapping("/refresh")
-    public BaseResponse<RefreshTokenResponse> refreshAccessToken(@RequestBody RefreshTokenRequest refreshTokenRequest) {
-        RefreshTokenResponse refreshTokenResponse = tokenService.refreshAccessToken(refreshTokenRequest.refreshToken());
+    public BaseResponse<RefreshTokenResponse> refreshAccessToken(HttpServletRequest request) {
+        String refreshToken = request.getHeader("Refresh-Token");
+        RefreshTokenResponse refreshTokenResponse = tokenService.refreshAccessToken(refreshToken);
         return BaseResponse.success(refreshTokenResponse);
     }
 

@@ -40,9 +40,9 @@ public class TokenGenerator {
         try {
             JWTVerifier verifier = JWT.require(algorithm).build();
             verifier.verify(token);
-            return true;
-        } catch (JWTVerificationException e) {
             return false;
+        } catch (JWTVerificationException e) {
+            return true;
         }
     }
 
