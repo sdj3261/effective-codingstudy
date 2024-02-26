@@ -1,4 +1,7 @@
 import axios from "axios";
+import { jwtDecode } from 'jwt-decode';
+
+
 
 // 인증이 필요한 API에서 사용할 axios 객체
 const authAxios = axios.create({
@@ -23,6 +26,14 @@ const refreshToken = async () => {
     }
 };
 
+// 액세스 토큰 만료 시간 확인 및 갱신 로직
+const isTokenExpired = (token) => {
+    if (!token) return true;
+    const decodedToken = jwtDecode(token);
+    const currentTime = Date.now() / 1000; // 현재 시간을 초 단위로 변환
+    return decodedToken.exp < currentTime;
+};
+
 const handleErrorResponse = (error) => {
     if (error.response.data.errorCode === "A001") {
         alert(error.response.data.message);
@@ -35,18 +46,21 @@ const handleErrorResponse = (error) => {
 
 
 
-// interceptor를 사용해서 요청마다 header에 accessToken을 넣어줍니다.
+// 요청 인터셉터
 authAxios.interceptors.request.use(
-    (config) => {
-        const accessToken = localStorage.getItem("accessToken");
-
-        if(accessToken){
+    async (config) => {
+        let accessToken = localStorage.getItem("accessToken");
+        // 액세스 토큰이 만료되었는지 확인
+        if (isTokenExpired(accessToken)) {
+            accessToken = await refreshToken(); // 토큰 갱신
+            config.headers.Authorization = `Bearer ${accessToken}`;
+        } else {
             config.headers.Authorization = `Bearer ${accessToken}`;
         }
         return config;
     },
-    (error) => console.log("request interceptor error", error)
-)
+    (error) => Promise.reject(error)
+);
 
 authAxios.interceptors.response.use(
     (response) => response,

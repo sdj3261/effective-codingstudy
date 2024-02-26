@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import {useAuth} from './layout/AuthContext'
+import {AuthProvider, useAuth} from './pages/auth/AuthContext'
 import { Layout, Menu, Breadcrumb, Card } from 'antd';
 import {
     DesktopOutlined,
@@ -12,9 +12,9 @@ import {
     NotificationOutlined,
     MailOutlined
 } from '@ant-design/icons';
-import Login from "./Login";
-import Main from "./Main";
-import GetToken from "./GetToken";
+import Login from "./pages/auth/Login";
+import Main from "./pages/main/Main";
+import GetToken from "./pages/auth/GetToken";
 import NotFound from "./layout/NotFound";
 import AppHeader from './layout/AppHeader'
 
@@ -29,6 +29,7 @@ function PrivateRoute({ children }) {
 
 const App = () => (
     <Router>
+        <AuthProvider>
         <Layout style={{ minHeight: '100vh' }}>
             <Sider collapsible>
                 <div className="logo" />
@@ -87,6 +88,7 @@ const App = () => (
                 </Footer>
             </Layout>
         </Layout>
+        </AuthProvider>
     </Router>
 );
 

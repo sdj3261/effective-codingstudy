@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useAuth } from "./layout/AuthContext"; // 경로는 실제 경로에 맞게 조정해주세요.
+import { useAuth } from "./AuthContext"; // 경로는 실제 경로에 맞게 조정해주세요.
 
 const GetToken = () => {
     let { accessToken } = useParams();
