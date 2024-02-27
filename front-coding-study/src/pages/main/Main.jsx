@@ -1,21 +1,36 @@
 import Login from "../auth/Login";
 import {useNavigate} from "react-router-dom";
 import authAxios from "../../interceptors";
+import errorPage from "../error/ErrorPage";
 import {useEffect, useState} from "react";
 
 const Main = () => {
     const [loginUser, setLoginUser] = useState({});
     const navigate = useNavigate();
 
-    // auth 필요한 API 테스트
-    const componentDidMount = async () => {
-        const res = (await authAxios.get("/auth/test")).data;
-        console.log(res)
-        setLoginUser(() => res);
-    }
+    useEffect(() => {
+        const fetchAuthData = async () => {
+            try {
+                const response = await authAxios.get("/auth/test");
+                const res = response.data;
 
-    useEffect(() => {componentDidMount()
-    }, []);
+                // res.success가 true일 경우, 로그인 사용자 데이터를 설정
+                if (res.success) {
+                    console.log(res);
+                    setLoginUser(() => res.data);
+                } else {
+                    // res.success가 false인 경우, 에러 페이지로 이동
+                    navigate('/errorPage'); // '/errorPage'는 ErrorPage 컴포넌트로 라우팅된 경로 가정
+                }
+            } catch (error) {
+                console.error("API Request Error :", error);
+                // 네트워크 오류 등의 예외 상황 처리, 에러 페이지로 이동
+                navigate('/errorPage'); // '/errorPage'는 ErrorPage 컴포넌트로 라우팅된 경로 가정
+            }
+        };
+
+        fetchAuthData();
+    }, [history]); // useEffect의 의존성 배열에 history 추가
 
     const logout = () => {
         logLocalStorageData()

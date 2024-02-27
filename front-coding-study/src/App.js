@@ -17,6 +17,7 @@ import Main from "./pages/main/Main";
 import GetToken from "./pages/auth/GetToken";
 import NotFound from "./layout/NotFound";
 import AppHeader from './layout/AppHeader'
+import ErrorPage from "./pages/error/ErrorPage";
 
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -80,6 +81,7 @@ const App = () => (
                             <Route path="/oauth/:accessToken" element={<GetToken />} />
                             <Route path="/main" element={<PrivateRoute><Main /></PrivateRoute>} />
                             <Route path="*" element={<NotFound />} />
+                            <Route path="/errorPage" element={<ErrorPage />} />
                         </Routes>
                     </div>
                 </Content>

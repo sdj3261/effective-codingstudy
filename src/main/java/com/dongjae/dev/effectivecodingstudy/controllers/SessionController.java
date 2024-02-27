@@ -43,12 +43,12 @@ public class SessionController {
 
     // /auth/** 모양의 주소는 모두 인증 필요
     @GetMapping("/auth/test")
-    public AuthResponse authTest(@AuthenticationPrincipal UserPrincipal user){
-        return AuthResponse.builder().
+    public BaseResponse<AuthResponse> authTest(@AuthenticationPrincipal UserPrincipal user){
+        return BaseResponse.success(AuthResponse.builder().
                 name(user.getName()).
                 username(user.getUsername()).
                 userId(user.getUserId().toString()).
-                build();
+                build());
     }
 
     private static void setRefreshTokenCookie(HttpServletResponse response, String refreshToken) {
