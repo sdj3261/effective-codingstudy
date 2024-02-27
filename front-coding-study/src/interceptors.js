@@ -20,7 +20,7 @@ const refreshToken = async () => {
         return accessToken;
     } catch (error) {
         console.error("Failed to refresh token", error);
-        localStorage.clear();
+        localStorage.removeItem("accessToken");
         window.location.replace('/login');
         throw error;
     }

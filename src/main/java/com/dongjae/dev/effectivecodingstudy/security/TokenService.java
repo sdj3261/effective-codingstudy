@@ -6,7 +6,7 @@ import com.dongjae.dev.effectivecodingstudy.application.exceptions.InvalidTokenE
 import com.dongjae.dev.effectivecodingstudy.domain.Token;
 import com.dongjae.dev.effectivecodingstudy.domain.UserId;
 import com.dongjae.dev.effectivecodingstudy.dto.TokenDto;
-import com.dongjae.dev.effectivecodingstudy.dto.response.RefreshTokenResponse;
+import com.dongjae.dev.effectivecodingstudy.dto.response.TokenResponse;
 import com.dongjae.dev.effectivecodingstudy.repository.TokenRepository;
 import com.dongjae.dev.effectivecodingstudy.utils.TokenGenerator;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -42,22 +40,17 @@ public class TokenService {
                 .ifPresent(tokenRepository::save); // 새 Token이 있으면 저장
     }
 
-    public RefreshTokenResponse refreshAccessToken(String refreshToken) {
+    public TokenResponse refreshAccessToken(String refreshToken) {
         if (tokenGenerator.verifyToken(refreshToken)) {
             throw new InvalidTokenException("Invalid refresh token");
         }
         String userId = tokenGenerator.getUserIdFromToken(refreshToken);
-        String accessToken = tokenGenerator.generateAccessToken(userId);
+        String newAccessToken = tokenGenerator.generateAccessToken(userId);
         String newRefreshToken = isRefreshTokenExpiring(refreshToken) ?
                 tokenGenerator.generateRefreshToken(userId) : refreshToken;
 
-        // Refresh Token이 만료되기 전이라면 갱신
-        if (!refreshToken.equals(newRefreshToken)) {
-            upsertRefreshToken(userId, newRefreshToken);
-        }
-
-        return RefreshTokenResponse.builder().
-                accessToken(tokenGenerator.generateAccessToken(userId)).
+        return TokenResponse.builder().
+                accessToken(newAccessToken).
                 refreshToken(newRefreshToken).
                 build();
     }
