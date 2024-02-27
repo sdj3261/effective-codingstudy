@@ -29,9 +29,8 @@ const Main = () => {
             }
         };
 
-        fetchAuthData();
-    }, [history]); // useEffect의 의존성 배열에 history 추가
-
+        fetchAuthData()
+    }, [navigate]);
     const logout = () => {
         logLocalStorageData()
         localStorage.clear()
