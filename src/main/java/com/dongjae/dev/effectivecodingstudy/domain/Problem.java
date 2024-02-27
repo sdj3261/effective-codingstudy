@@ -15,7 +15,7 @@ public class Problem extends BaseEntity {
     private String description;
 
     @Enumerated(EnumType.STRING)
-    private ProblemType type; // Const 클래스의 내부 열거형 사용
+    private ProblemType type; // SQL, Algorithm
 
     @ManyToOne
     private User user;

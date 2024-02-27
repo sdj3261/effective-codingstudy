@@ -23,23 +23,6 @@ public class TokenService {
     private final TokenRepository tokenRepository;
     private final TokenGenerator tokenGenerator;
 
-    public void updateOrInsertRefreshToken(String username, String refreshToken) {
-        Token token = tokenRepository.findById(username)
-                .map(existingToken -> {
-                    existingToken.updateToken(refreshToken);
-                    return existingToken;
-                })
-                .orElseGet(() -> new Token(username, refreshToken));
-        tokenRepository.save(token);
-    }
-
-    public void upsertRefreshToken(String username, String refreshToken) {
-        tokenRepository.findByUsername(username)
-                .filter(token -> tokenGenerator.verifyToken(token.getToken())) // Token이 유효하지 않은 경우
-                .map(token -> toEntity(new TokenDto(username,refreshToken)))// 새 Token 객체로 매핑
-                .ifPresent(tokenRepository::save); // 새 Token이 있으면 저장
-    }
-
     public TokenResponse refreshAccessToken(String refreshToken) {
         if (tokenGenerator.verifyToken(refreshToken)) {
             throw new InvalidTokenException("Invalid refresh token");
