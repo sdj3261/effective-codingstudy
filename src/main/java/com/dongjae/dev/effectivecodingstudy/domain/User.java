@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -23,6 +24,8 @@ public class User extends BaseEntity {
     private String password;
     private String name;
     private String provider;
+    @OneToMany(mappedBy = "user")
+    private List<Problem> problems;
 
     public User(UserId userId) {
         this.userId = userId;

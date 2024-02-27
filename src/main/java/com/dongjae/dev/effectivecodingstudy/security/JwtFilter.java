@@ -1,6 +1,7 @@
 package com.dongjae.dev.effectivecodingstudy.security;
 
 import com.dongjae.dev.effectivecodingstudy.domain.User;
+import com.dongjae.dev.effectivecodingstudy.domain.UserId;
 import com.dongjae.dev.effectivecodingstudy.oauth2.UserPrincipal;
 import com.dongjae.dev.effectivecodingstudy.repository.UserQueryRepository;
 import com.dongjae.dev.effectivecodingstudy.repository.UserRepository;
@@ -59,7 +60,7 @@ public class JwtFilter extends OncePerRequestFilter {
         if (token != null) {
             // header의 token로 token, key를 포함하는 새로운 JwtAuthToken 만들기
             String userId = tokenGenerator.getUserIdFromToken(token);
-            String username = userRepository.findUsernameById(userId)
+            String username = userRepository.findUsernameByUserId(UserId.of(userId))
                     .orElseThrow(() -> new UsernameNotFoundException("CANNOT FIND USER INFO"));
 
             UserPrincipal user = (UserPrincipal) userDetailsService.loadUserByUsername(username);
