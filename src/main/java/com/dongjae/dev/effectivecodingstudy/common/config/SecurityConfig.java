@@ -61,7 +61,6 @@ public class SecurityConfig {
                 .oauth2Login(oauth2Configurer -> oauth2Configurer
                         .successHandler(successHandler)
                         .userInfoEndpoint(configurer -> configurer.userService(oAuth2MemberService))
-                        .loginPage("/")
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtExceptionFilter, JwtFilter.class);

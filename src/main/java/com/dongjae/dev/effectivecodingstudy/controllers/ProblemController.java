@@ -25,8 +25,9 @@ public class ProblemController {
     private final UserSessionService userSessionService;
 
     @GetMapping
-    public BaseResponse<ProblemListResponse> listProblem(ProblemRequest request) {
+    public BaseResponse<ProblemListResponse> listProblem(@ModelAttribute ProblemRequest request) {
         return problemService.getProblemsList(
                 userSessionService.getCurrentUserDetails().getUserId(), request);
     }
+
 }

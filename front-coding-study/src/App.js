@@ -24,9 +24,10 @@ const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 // PrivateRoute 컴포넌트는 로그인 상태에 따라 접근을 제어합니다.
 function PrivateRoute({ children }) {
-    const isLoggedIn = useAuth(); // useAuth 훅으로 로그인 상태를 확인합니다.
-    return isLoggedIn ? children : <Navigate to="/" />;
+    const { isLoggedIn } = useAuth();
+    return isLoggedIn ? children : <Navigate to="/" replace />;
 }
+
 
 const App = () => (
     <Router>
