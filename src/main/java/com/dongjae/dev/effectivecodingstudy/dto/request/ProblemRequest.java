@@ -1,6 +1,7 @@
 package com.dongjae.dev.effectivecodingstudy.dto.request;
 
 import com.dongjae.dev.effectivecodingstudy.common.model.PageRequestDto;
+import lombok.Getter;
 
-public class ProblemRequest extends PageRequestDto {
+public record ProblemRequest (PageRequestDto pageRequestDto, Long difficulty, String tag){
 }

@@ -4,19 +4,20 @@ import static com.dongjae.dev.effectivecodingstudy.common.Const.ProblemType;
 import com.dongjae.dev.effectivecodingstudy.common.Const;
 import com.dongjae.dev.effectivecodingstudy.common.model.BaseEntity;
 import jakarta.persistence.*;
+import lombok.Getter;
 
 @Entity
 @Table(name = "problems")
+@Getter
 public class Problem extends BaseEntity {
     @EmbeddedId
     private ProblemId id;
-
     private String title;
     private String description;
-
     @Enumerated(EnumType.STRING)
     private ProblemType type; // SQL, Algorithm
-
+    private Long difficulty;
+    private String tag;
     @ManyToOne
     private User user;
 
