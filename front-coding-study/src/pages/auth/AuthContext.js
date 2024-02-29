@@ -8,7 +8,6 @@ export function useAuth() {
 
 export const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("accessToken"));
-
 // AuthProvider 내 login 함수 수정
     const login = async (accessToken) => {
         if (accessToken) {
