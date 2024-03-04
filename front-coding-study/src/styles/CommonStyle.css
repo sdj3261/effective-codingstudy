@@ -1,0 +1,124 @@
+/* CommonStyles.css */
+
+/* 기존 스타일 */
+.site-layout-background {
+    background-color: #fff; /* 밝은 배경 */
+}
+
+.site-layout .site-layout-background {
+    background: #ececec; /* 상단 바 색상 */
+}
+
+.logo {
+    height: 32px;
+    background: rgba(255, 255, 255, 0.3);
+    margin: 16px;
+}
+
+/* Ant Design 컴포넌트 스타일링 */
+
+/* 버튼 */
+/* 버튼 */
+.ant-btn-primary {
+    background-color: #000000; /* 버튼 배경 색상을 검정색으로 변경 */
+    border-color: #000000; /* 버튼 테두리 색상을 검정색으로 변경 */
+}
+
+/* 호버 및 포커스 상태의 버튼 */
+.ant-btn-primary:hover,
+.ant-btn-primary:focus {
+    background-color: #333333; /* 호버 및 포커스 상태에서의 배경색을 약간 밝은 검정색으로 변경 */
+    border-color: #333333; /* 호버 및 포커스 상태에서의 테두리 색상을 약간 밝은 검정색으로 변경 */
+}
+
+/* 액티브 상태의 버튼 */
+.ant-btn-primary:active {
+    background-color: #1a1a1a; /* 액티브 상태에서의 배경색을 더 어두운 검정색으로 변경 */
+    border-color: #1a1a1a; /* 액티브 상태에서의 테두리 색상을 더 어두운 검정색으로 변경 */
+}
+
+/* 입력 필드 */
+.ant-input {
+    border-radius: 4px; /* 둥근 모서리 */
+    border-color: #d9d9d9; /* 테두리 색상 */
+}
+
+/* 입력 필드 포커스 상태 */
+.ant-input:focus {
+    border-color: #1890ff; /* 테두리 색상을 버튼 색상과 동일하게 설정 */
+    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2); /* 테두리에 그림자 효과 추가 */
+}
+
+/* 메뉴 아이템 */
+.ant-menu-item-selected {
+    background-color: #1890ff; /* 선택된 메뉴 아이템 배경 색상 */
+    color: #fff; /* 선택된 메뉴 아이템 텍스트 색상 */
+}
+
+/* 메뉴 아이템 호버 상태 */
+.ant-menu-item:hover {
+    background-color: #40a9ff; /* 호버 상태 배경 색상 */
+}
+
+/* 테이블 스타일 */
+.ant-table-thead > tr > th {
+    background-color: #f5f5f5; /* 테이블 헤더 배경색 */
+    color: #000; /* 테이블 헤더 글자색 */
+}
+
+.ant-table-tbody > tr > td {
+    background-color: #fff; /* 테이블 바디 배경색 */
+}
+
+.ant-table-row:hover > td {
+    background-color: #e6f7ff; /* 테이블 row 호버 시 배경색 */
+}
+
+/* 그리드 뷰 (Card 그리드) */
+.ant-card-grid {
+    border: solid 1px #f0f0f0; /* 그리드 테두리 색상 */
+    padding: 16px; /* 그리드 내부 패딩 */
+    transition: all 0.3s; /* 부드러운 색상 전환 효과 */
+}
+
+.ant-card-grid:hover {
+    border: solid 1px #1890ff; /* 호버 시 테두리 색상 */
+    cursor: pointer;
+}
+
+/* 모달 (팝업) 스타일 */
+.ant-modal-header {
+    background-color: #1890ff; /* 모달 헤더 배경색 */
+    color: #fff; /* 모달 헤더 글자색 */
+}
+
+.ant-modal-close-x {
+    color: #fff; /* 모달 닫기 버튼 색상 */
+}
+
+.ant-modal-body {
+    padding: 24px; /* 모달 본문의 패딩 */
+}
+
+.ant-modal-footer {
+    border-top: none; /* 모달 푸터의 상단 테두리 제거 */
+}
+
+/* 모달 내부의 버튼 */
+.ant-modal-footer .ant-btn-primary {
+    background-color: #1890ff; /* 모달 버튼 배경색 */
+    border-color: #1890ff; /* 모달 버튼 테두리 색상 */
+}
+
+.ant-modal-footer .ant-btn-primary:hover,
+.ant-modal-footer .ant-btn-primary:focus {
+    background-color: #40a9ff; /* 모달 버튼 호버 및 포커스 배경색 */
+    border-color: #40a9ff; /* 모달 버튼 호버 및 포커스 테두리 색상 */
+}
+
+/* 모달 버튼 액티브 상태 */
+.ant-modal-footer .ant-btn-primary:active {
+    background-color: #096dd9; /* 모달 버튼 액티브 배경색 */
+    border-color: #096dd9; /* 모달 버튼 액티브 테두리 색상 */
+}
+

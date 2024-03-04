@@ -28,7 +28,7 @@ public class BaseResponse<T> {
                 .build();
         return new BaseResponse<>(false, errorResponse);
     }
-    //유연하게 처리하기 위해 생성
+
     public static <T> BaseResponse<T> of(boolean success, T data) {
         return new BaseResponse<>(success, data);
     }

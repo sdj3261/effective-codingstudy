@@ -18,16 +18,12 @@ import GetToken from "./pages/auth/GetToken";
 import NotFound from "./layout/NotFound";
 import AppHeader from './layout/AppHeader'
 import ErrorPage from "./pages/error/ErrorPage";
+import Signup from "./pages/auth/Signup";
+import {PrivateLayout} from "./hook/PrivateLayout"
 
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
-// PrivateRoute 컴포넌트는 로그인 상태에 따라 접근을 제어합니다.
-function PrivateRoute({ children }) {
-    const { isLoggedIn } = useAuth();
-    return isLoggedIn ? children : <Navigate to="/" replace />;
-}
-
 
 const App = () => (
     <Router>
@@ -55,7 +51,7 @@ const App = () => (
                         Notification
                     </Menu.Item>
                     <Menu.Item key="7" icon={<FileOutlined />}>
-                        File
+                        Hire
                     </Menu.Item>
                     <Menu.Item key="8" icon={<LinkOutlined />}>
                         Notion
@@ -80,7 +76,10 @@ const App = () => (
                         <Routes>
                             <Route path="/" element={<Login />} />
                             <Route path="/oauth/:accessToken" element={<GetToken />} />
-                            <Route path="/main" element={<PrivateRoute><Main /></PrivateRoute>} />
+                            <Route element={<PrivateLayout />}>
+                            <Route path="/main" element={<Main/>} />
+                            <Route path="/signup" element={<Signup/>}/>
+                            </Route>
                             <Route path="*" element={<NotFound />} />
                             <Route path="/errorPage" element={<ErrorPage />} />
                         </Routes>
