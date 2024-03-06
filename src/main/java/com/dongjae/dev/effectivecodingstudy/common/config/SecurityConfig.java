@@ -2,8 +2,8 @@ package com.dongjae.dev.effectivecodingstudy.common.config;
 
 import com.dongjae.dev.effectivecodingstudy.security.JwtExceptionFilter;
 import com.dongjae.dev.effectivecodingstudy.security.JwtFilter;
-import com.dongjae.dev.effectivecodingstudy.oauth2.OAuth2MemberService;
-import com.dongjae.dev.effectivecodingstudy.oauth2.OAuth2SuccessHandler;
+import com.dongjae.dev.effectivecodingstudy.infrastructure.oauth2.OAuth2MemberService;
+import com.dongjae.dev.effectivecodingstudy.infrastructure.oauth2.OAuth2SuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

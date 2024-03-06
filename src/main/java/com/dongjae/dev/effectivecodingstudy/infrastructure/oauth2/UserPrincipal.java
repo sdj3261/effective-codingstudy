@@ -1,4 +1,4 @@
-package com.dongjae.dev.effectivecodingstudy.oauth2;
+package com.dongjae.dev.effectivecodingstudy.infrastructure.oauth2;
 
 import com.dongjae.dev.effectivecodingstudy.domain.User;
 import com.dongjae.dev.effectivecodingstudy.domain.UserId;

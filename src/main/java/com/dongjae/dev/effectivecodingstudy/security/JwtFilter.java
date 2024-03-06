@@ -1,9 +1,7 @@
 package com.dongjae.dev.effectivecodingstudy.security;
 
-import com.dongjae.dev.effectivecodingstudy.domain.User;
 import com.dongjae.dev.effectivecodingstudy.domain.UserId;
-import com.dongjae.dev.effectivecodingstudy.oauth2.UserPrincipal;
-import com.dongjae.dev.effectivecodingstudy.repository.UserQueryRepository;
+import com.dongjae.dev.effectivecodingstudy.infrastructure.oauth2.UserPrincipal;
 import com.dongjae.dev.effectivecodingstudy.repository.UserRepository;
 import com.dongjae.dev.effectivecodingstudy.utils.TokenGenerator;
 import jakarta.servlet.FilterChain;
@@ -24,7 +22,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.Optional;
 
 // 로그인 이후 access token 검증하는 필터
 @Slf4j

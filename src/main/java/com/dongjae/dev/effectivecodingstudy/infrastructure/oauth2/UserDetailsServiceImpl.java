@@ -1,7 +1,6 @@
-package com.dongjae.dev.effectivecodingstudy.oauth2;
+package com.dongjae.dev.effectivecodingstudy.infrastructure.oauth2;
 
 import com.dongjae.dev.effectivecodingstudy.domain.User;
-import com.dongjae.dev.effectivecodingstudy.domain.UserId;
 import com.dongjae.dev.effectivecodingstudy.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -2,12 +2,11 @@ package com.dongjae.dev.effectivecodingstudy.controllers;
 
 import com.dongjae.dev.effectivecodingstudy.application.user.LoginService;
 import com.dongjae.dev.effectivecodingstudy.common.model.BaseResponse;
-import com.dongjae.dev.effectivecodingstudy.domain.Token;
 import com.dongjae.dev.effectivecodingstudy.dto.request.LoginRequest;
 import com.dongjae.dev.effectivecodingstudy.dto.response.AuthResponse;
 import com.dongjae.dev.effectivecodingstudy.dto.response.LoginResponse;
 import com.dongjae.dev.effectivecodingstudy.dto.response.TokenResponse;
-import com.dongjae.dev.effectivecodingstudy.oauth2.UserPrincipal;
+import com.dongjae.dev.effectivecodingstudy.infrastructure.oauth2.UserPrincipal;
 import com.dongjae.dev.effectivecodingstudy.security.TokenService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,4 +1,4 @@
-package com.dongjae.dev.effectivecodingstudy.oauth2;
+package com.dongjae.dev.effectivecodingstudy.infrastructure.oauth2;
 import com.dongjae.dev.effectivecodingstudy.security.TokenService;
 import com.dongjae.dev.effectivecodingstudy.utils.TokenGenerator;
 import jakarta.servlet.ServletException;

@@ -3,7 +3,7 @@ package com.dongjae.dev.effectivecodingstudy.application.user;
 import com.dongjae.dev.effectivecodingstudy.domain.User;
 import com.dongjae.dev.effectivecodingstudy.dto.request.LoginRequest;
 import com.dongjae.dev.effectivecodingstudy.dto.response.LoginResponse;
-import com.dongjae.dev.effectivecodingstudy.oauth2.UserPrincipal;
+import com.dongjae.dev.effectivecodingstudy.infrastructure.oauth2.UserPrincipal;
 import com.dongjae.dev.effectivecodingstudy.repository.UserRepository;
 import com.dongjae.dev.effectivecodingstudy.utils.TokenGenerator;
 import lombok.RequiredArgsConstructor;
