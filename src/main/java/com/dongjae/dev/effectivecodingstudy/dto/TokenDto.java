@@ -6,16 +6,12 @@ import lombok.Getter;
 
 @Getter
 public class TokenDto{
-    private String username;
+    private String userId;
     private String token;
 
     public TokenDto(String username, String token) {
-        this.username = username;
+        this.userId = username;
         this.token = token;
-    }
-
-    public Token toEntity() {
-        return new Token(this.username, this.token);
     }
 }
 

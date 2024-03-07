@@ -1,6 +1,7 @@
-package com.dongjae.dev.effectivecodingstudy.infrastructure.oauth2;
+package com.dongjae.dev.effectivecodingstudy.security;
 
 import com.dongjae.dev.effectivecodingstudy.domain.User;
+import com.dongjae.dev.effectivecodingstudy.domain.UserId;
 import com.dongjae.dev.effectivecodingstudy.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,8 +17,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private final UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username)
+    public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+        User user = userRepository.findById(UserId.of(userId))
                 .orElseThrow(() -> new UsernameNotFoundException("CANNOT FIND USER INFO"));
 
         return UserPrincipal.create(user);

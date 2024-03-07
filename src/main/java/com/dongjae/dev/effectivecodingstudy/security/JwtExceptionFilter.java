@@ -2,7 +2,7 @@ package com.dongjae.dev.effectivecodingstudy.security;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
-import com.dongjae.dev.effectivecodingstudy.common.ErrorCode;
+import com.dongjae.dev.effectivecodingstudy.common.enums.ErrorCode;
 import com.dongjae.dev.effectivecodingstudy.common.model.BaseResponse;
 import com.dongjae.dev.effectivecodingstudy.common.model.ErrorResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;

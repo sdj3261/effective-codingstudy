@@ -1,17 +1,17 @@
 package com.dongjae.dev.effectivecodingstudy.application.user;
 
+import com.dongjae.dev.effectivecodingstudy.application.exceptions.EmailNotFoundException;
 import com.dongjae.dev.effectivecodingstudy.domain.User;
 import com.dongjae.dev.effectivecodingstudy.dto.request.LoginRequest;
 import com.dongjae.dev.effectivecodingstudy.dto.response.LoginResponse;
-import com.dongjae.dev.effectivecodingstudy.infrastructure.oauth2.UserPrincipal;
+import com.dongjae.dev.effectivecodingstudy.security.UserPrincipal;
 import com.dongjae.dev.effectivecodingstudy.repository.UserRepository;
-import com.dongjae.dev.effectivecodingstudy.utils.TokenGenerator;
+import com.dongjae.dev.effectivecodingstudy.security.TokenGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +25,8 @@ public class LoginService {
     private final TokenGenerator tokenGenerator;
 
     public LoginResponse login(LoginRequest request) {
-        User user = userRepository.findByUsername(request.username())
-                .orElseThrow(() -> new UsernameNotFoundException("WRONG USERNAME"));
+        User user = userRepository.findByEmail(request.username())
+                .orElseThrow(() -> new EmailNotFoundException("WRONG EMAIL"));
 
         if (!passwordEncoder.matches(request.password(), user.getPassword())) {
             throw new BadCredentialsException("WRONG PASSWORD");
@@ -38,7 +38,7 @@ public class LoginService {
         //로그인 성공시 엑세스 토큰과 이름 발급
         String accessToken = tokenGenerator.generateAccessToken(userPrincipal.getUserId().toString());
         return LoginResponse.builder()
-                .username(user.getUsername())
+                .email(user.getEmail())
                 .accessToken(accessToken)
                 .message("로그인 성공")
                 .build();

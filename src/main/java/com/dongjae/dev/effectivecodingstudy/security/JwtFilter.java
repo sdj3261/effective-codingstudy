@@ -1,9 +1,6 @@
 package com.dongjae.dev.effectivecodingstudy.security;
 
-import com.dongjae.dev.effectivecodingstudy.domain.UserId;
-import com.dongjae.dev.effectivecodingstudy.infrastructure.oauth2.UserPrincipal;
 import com.dongjae.dev.effectivecodingstudy.repository.UserRepository;
-import com.dongjae.dev.effectivecodingstudy.utils.TokenGenerator;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,7 +12,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -57,18 +53,16 @@ public class JwtFilter extends OncePerRequestFilter {
         if (token != null) {
             // header의 token로 token, key를 포함하는 새로운 JwtAuthToken 만들기
             String userId = tokenGenerator.getUserIdFromToken(token);
-            String username = userRepository.findUsernameByUserId(UserId.of(userId))
-                    .orElseThrow(() -> new UsernameNotFoundException("CANNOT FIND USER INFO"));
 
-            UserPrincipal user = (UserPrincipal) userDetailsService.loadUserByUsername(username);
+            UserPrincipal user = (UserPrincipal) userDetailsService.loadUserByUsername(userId);
 
             Authentication authentication = new UsernamePasswordAuthenticationToken(
                     user,
                     null,
-                    Collections.singleton(new SimpleGrantedAuthority("USER")));
+                    Collections.singleton(new SimpleGrantedAuthority(user.getRole().name())));
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            log.debug("user pk: {} 인증 성공!", username);
+            log.debug("user pk: {} 인증 성공!", user.getName());
         }
 
         filterChain.doFilter(request, response);

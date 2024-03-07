@@ -1,4 +1,4 @@
-package com.dongjae.dev.effectivecodingstudy.infrastructure.oauth2;
+package com.dongjae.dev.effectivecodingstudy.security;
 
 import com.dongjae.dev.effectivecodingstudy.domain.User;
 import com.dongjae.dev.effectivecodingstudy.domain.UserId;
@@ -13,31 +13,48 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.*;
-
+import static com.dongjae.dev.effectivecodingstudy.common.enums.Const.RoleType;
 @AllArgsConstructor
 @Builder
 @ToString(of= {"userId"})
 @Getter
 public class UserPrincipal implements UserDetails, OAuth2User {
     private UserId userId;
-    private String username;
+    private String email;
     private String name;
+    private RoleType role;
+    private String nickname;
     private Map<String, Object> oauth2UserAttributes;
 
     public static UserPrincipal create(User user, Map<String, Object> oauth2UserAttributes) {
-        return new UserPrincipal(user.getUserId(), user.getUsername(), user.getName(), oauth2UserAttributes);
+        return UserPrincipal.builder().
+                userId(user.getUserId()).
+                email(user.getEmail()).
+                name(user.getName()).
+                role(user.getRole()).
+                nickname(user.getNickname()).
+                oauth2UserAttributes(oauth2UserAttributes).
+                build();
     }
 
     public static UserPrincipal create(User user) {
-        return new UserPrincipal(user.getUserId(), user.getUsername(),user.getName(), new HashMap<>());
+        return UserPrincipal.builder().
+                userId(user.getUserId()).
+                email(user.getEmail()).
+                name(user.getName()).
+                role(user.getRole()).
+                nickname(user.getNickname()).
+                build();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorityList = new ArrayList<>();
-        authorityList.add(new SimpleGrantedAuthority("ROLE_USER"));
+        List<GrantedAuthority> authorities = new ArrayList<>();
 
-        return authorityList;
+        // 역할에 따라 GrantedAuthority 생성
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + this.role.name()));
+
+        return authorities;
     }
 
     @Override
@@ -47,8 +64,9 @@ public class UserPrincipal implements UserDetails, OAuth2User {
 
     @Override
     public String getUsername() {
-        return this.username;
+        return this.email;
     }
+
 
     @Override
     public boolean isAccountNonExpired() {

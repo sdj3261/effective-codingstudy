@@ -1,6 +1,6 @@
 package com.dongjae.dev.effectivecodingstudy.application.user;
 
-import com.dongjae.dev.effectivecodingstudy.infrastructure.oauth2.UserPrincipal;
+import com.dongjae.dev.effectivecodingstudy.security.UserPrincipal;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

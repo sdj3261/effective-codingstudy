@@ -9,8 +9,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, UserId>, UserQueryRepository {
-    Optional<User> findByUsernameAndProvider(String username, String provider);
-    Optional<User> findByUsername(String username);
-    @Query("SELECT u.username FROM User u WHERE u.id = :id")
+    Optional<User> findBySocialId(String socialId);
+    Optional<User> findByEmailAndProvider(String email, String provider);
+    @Query("SELECT u.email FROM User u WHERE u.id = :id")
     Optional<String> findUsernameByUserId(@Param("id") UserId userId);
 }

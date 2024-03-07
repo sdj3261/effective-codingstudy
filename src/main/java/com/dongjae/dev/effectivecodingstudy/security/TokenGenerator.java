@@ -1,4 +1,4 @@
-package com.dongjae.dev.effectivecodingstudy.utils;
+package com.dongjae.dev.effectivecodingstudy.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -24,7 +24,7 @@ public class TokenGenerator {
 
     public String generateAccessToken(String userId) {
         return JWT.create()
-                .withSubject(userId) // "sub" 클레임에 사용자 ID 설정
+                .withSubject(userId)
                 .withExpiresAt(Date.from(Instant.now().plus(ACCESS_TOKEN_EXPIRY_HOURS, ChronoUnit.HOURS)))
                 .sign(algorithm);
     }

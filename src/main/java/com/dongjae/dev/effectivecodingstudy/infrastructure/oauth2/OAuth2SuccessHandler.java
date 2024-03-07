@@ -1,6 +1,7 @@
 package com.dongjae.dev.effectivecodingstudy.infrastructure.oauth2;
 import com.dongjae.dev.effectivecodingstudy.security.TokenService;
-import com.dongjae.dev.effectivecodingstudy.utils.TokenGenerator;
+import com.dongjae.dev.effectivecodingstudy.security.UserPrincipal;
+import com.dongjae.dev.effectivecodingstudy.security.TokenGenerator;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,7 +31,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         // access 토큰 생성
         String accessToken = tokenGenerator.generateAccessToken(user.getUserId().toString());
         // Refresh Token DB에 저장 없으면 생성
-        String refreshToken = tokenService.getOrCreateRefreshToken(user.getUsername(), user.getUserId());
+        String refreshToken = tokenService.getOrCreateRefreshToken(user.getUserId());
         setRefreshTokenCookie(response, refreshToken);
 
         // Access Token , Refresh Token 프론트 단에 Response Header로 전달

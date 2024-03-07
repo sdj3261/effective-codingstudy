@@ -1,6 +1,6 @@
 package com.dongjae.dev.effectivecodingstudy.application.exceptions;
 
-import com.dongjae.dev.effectivecodingstudy.common.ErrorCode;
+import com.dongjae.dev.effectivecodingstudy.common.enums.ErrorCode;
 import com.dongjae.dev.effectivecodingstudy.common.model.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler({UsernameNotFoundException.class})
+    @ExceptionHandler({UsernameNotFoundException.class, EmailNotFoundException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleUsernameNotFoundException(Exception e){
         return ErrorResponse.builder().
@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ErrorResponse handleBadCredentialsException(Exception e){
         return ErrorResponse.builder().
-                errorCode(ErrorCode.LOGIN_INVALID.getCode()).
+                errorCode(ErrorCode.BAD_CREDENCIAL.getCode()).
                 message(e.getMessage()).
                 build();
     }

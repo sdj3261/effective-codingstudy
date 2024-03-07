@@ -1,7 +1,7 @@
 package com.dongjae.dev.effectivecodingstudy.domain;
 
-import static com.dongjae.dev.effectivecodingstudy.common.Const.ProblemType;
-import com.dongjae.dev.effectivecodingstudy.common.Const;
+import static com.dongjae.dev.effectivecodingstudy.common.enums.Const.ProblemType;
+
 import com.dongjae.dev.effectivecodingstudy.common.model.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;

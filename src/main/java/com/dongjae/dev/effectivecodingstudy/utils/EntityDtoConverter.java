@@ -20,7 +20,6 @@ public class EntityDtoConverter {
                         dtoField.set(dto, value);
                     }
                 } catch (NoSuchFieldException e) {
-                    // DTO에 해당 필드가 없으면 무시
                 }
             }
 

@@ -53,9 +53,10 @@ const Main = () => {
         <>
             <h1>메인 페이지</h1>
             <div>로그인 유저 정보</div>
-            <div>username: {loginUser.username}</div>
+            <div>username: {loginUser.email}</div>
             <div>name: {loginUser.name}</div>
-            <br />
+            <div>name: {loginUser.toString()}</div>
+            <br/>
             <button onClick={logout}>로그아웃</button>
         </>
     )
