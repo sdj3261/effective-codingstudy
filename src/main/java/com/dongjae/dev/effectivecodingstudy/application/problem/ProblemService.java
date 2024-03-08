@@ -8,7 +8,6 @@ import com.dongjae.dev.effectivecodingstudy.dto.request.ProblemRequest;
 import com.dongjae.dev.effectivecodingstudy.dto.response.ProblemListResponse;
 import com.dongjae.dev.effectivecodingstudy.dto.response.ProblemResponse;
 import com.dongjae.dev.effectivecodingstudy.repository.ProblemQueryRepository;
-import com.dongjae.dev.effectivecodingstudy.utils.EntityDtoConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -27,13 +26,13 @@ public class ProblemService {
     public BaseResponse<ProblemListResponse> getProblemsList(UserId userId, ProblemRequest request) {
         Page<Problem> problemPage = problemQueryRepository.findByConditions(userId, request.toPageRequestDto().toPageable());
 
-        List<ProblemResponse> problemResponses = problemPage.getContent().stream()
-                .map(problem -> EntityDtoConverter.convert(problem, ProblemResponse.class))
-                .collect(Collectors.toList());
+//        List<ProblemResponse> problemResponses = problemPage.getContent().stream()
+//                .map(problem -> EntityDtoConverter.convert(problem, ProblemResponse.class))
+//                .collect(Collectors.toList());
 
         // Use the new constructor
         return BaseResponse.success(ProblemListResponse.builder().
-                problemResponses(problemResponses).
+                problemResponses(null).
                 page(problemPage).
                 build());
     }
