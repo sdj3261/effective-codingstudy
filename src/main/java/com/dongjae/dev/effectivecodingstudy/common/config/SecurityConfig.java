@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -28,6 +29,7 @@ public class SecurityConfig {
     private final JwtExceptionFilter jwtExceptionFilter;
     private final OAuth2SuccessHandler successHandler;
     private final OAuth2MemberService oAuth2MemberService;
+    private final AuthenticationEntryPoint entryPoint;
     private static final String FRONT_SERVER_ADDRESS = "http://localhost:3000";
 
 
@@ -63,7 +65,8 @@ public class SecurityConfig {
                         .userInfoEndpoint(configurer -> configurer.userService(oAuth2MemberService))
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(jwtExceptionFilter, JwtFilter.class);
+                .addFilterBefore(jwtExceptionFilter, JwtFilter.class)
+                .exceptionHandling(handler -> handler.authenticationEntryPoint(entryPoint));
 
         return httpSecurity.build();
     }

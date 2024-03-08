@@ -43,7 +43,7 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
     public void setErrorResponse(HttpServletResponse response, String msg) throws IOException {
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType("application/json; charset=UTF-8");
-        BaseResponse<ErrorResponse> baseResponse = BaseResponse.failure(ErrorCode.LOGOUT_INDUCED.getCode(),msg,null);
+        BaseResponse<ErrorResponse> baseResponse = BaseResponse.failure(ErrorCode.TOKEN_ERROR.getCode(), msg,null);
         response.getWriter().write(objectMapper.writeValueAsString(baseResponse));
     }
 }

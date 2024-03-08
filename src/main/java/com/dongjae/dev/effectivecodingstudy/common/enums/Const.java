@@ -17,7 +17,7 @@ public class Const {
         public String getValue() {
             return this.value;
         }
-        // 문자열 값으로부터 ProviderType을 반환하는 메소드
+        // ProviderType 반환
         public static ProviderType fromValue(String value) {
             for (ProviderType type : values()) {
                 if (type.getValue().equalsIgnoreCase(value)) {
