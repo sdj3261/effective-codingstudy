@@ -5,7 +5,9 @@ import com.dongjae.dev.effectivecodingstudy.application.exceptions.ConvertExcept
 import com.dongjae.dev.effectivecodingstudy.application.exceptions.EmailNotFoundException;
 import com.dongjae.dev.effectivecodingstudy.application.exceptions.ProviderNotFoundException;
 import com.dongjae.dev.effectivecodingstudy.common.enums.ErrorCode;
+import com.dongjae.dev.effectivecodingstudy.common.model.BaseResponse;
 import com.dongjae.dev.effectivecodingstudy.common.model.ErrorResponse;
+import com.dongjae.dev.effectivecodingstudy.utils.ErrorResponseUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,28 +25,19 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({UsernameNotFoundException.class, EmailNotFoundException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleUsernameNotFoundException(Exception e){
-        return ErrorResponse.builder().
-                errorCode(ErrorCode.LOGIN_INVALID.getCode()).
-                message(e.getMessage()).
-                build();
+    public BaseResponse<ErrorResponse> handleUsernameNotFoundException(Exception e) {
+        return ErrorResponseUtil.errorResponse(e, ErrorCode.LOGIN_INVALID);
     }
 
     @ExceptionHandler({BadCredentialsException.class, ProviderNotFoundException.class})
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ErrorResponse handleBadCredentialsException(Exception e){
-        return ErrorResponse.builder().
-                errorCode(ErrorCode.BAD_CREDENCIAL.getCode()).
-                message(e.getMessage()).
-                build();
+    public BaseResponse<ErrorResponse> handleBadCredentialsException(Exception e){
+        return ErrorResponseUtil.errorResponse(e, ErrorCode.BAD_CREDENCIAL);
     }
     @ExceptionHandler({ConvertException.class})
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorResponse handleConvertException(Exception e){
-        return ErrorResponse.builder().
-                errorCode(ErrorCode.CONVERT_ERROR.getCode()).
-                message(e.getMessage()).
-                build();
+    @ResponseStatus(HttpStatus.OK)
+    public BaseResponse<ErrorResponse> handleConvertException(Exception e){
+        return ErrorResponseUtil.errorResponse(e, ErrorCode.CONVERT_ERROR);
     }
 }
 

@@ -51,7 +51,7 @@ public class UserPrincipal implements UserDetails, OAuth2User {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
 
-        // 역할에 따라 GrantedAuthority 생성
+        // 시큐리티 GrantedAuthority 생성
         authorities.add(new SimpleGrantedAuthority("ROLE_" + this.role.name()));
 
         return authorities;

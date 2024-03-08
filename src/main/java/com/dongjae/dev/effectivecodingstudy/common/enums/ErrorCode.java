@@ -1,8 +1,10 @@
 package com.dongjae.dev.effectivecodingstudy.common.enums;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 
 @Getter
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ErrorCode {
     //Auth
     LOGOUT_INDUCED("A001"), // 프론트에서 로그아웃 유도로 사용할 코드
