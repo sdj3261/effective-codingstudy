@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import {Form, Input, Button, message, Modal, Space, Row, Col} from 'antd';
-import {useAxios} from "../../hook/CustomAxios";
+import { useAxios } from "../../hook/CustomAxios";
 import DaumPostcode from 'react-daum-postcode';
 
 const Signup = () => {
@@ -59,7 +57,7 @@ const Signup = () => {
             method: 'post',
             data: user,
             redirect: {
-                path: '/login', // 요청 성공 후 이동할 경로
+                path: '/auth/test', // 요청 성공 후 이동할 경로
                 shouldRedirect: true // 성공시 리다이렉트 여부
             }
         });
