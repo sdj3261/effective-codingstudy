@@ -15,6 +15,7 @@ const Main = () => {
                 const res = response.data;
 
                 // res.success가 true일 경우, 로그인 사용자 데이터를 설정
+                //commit test
                 if (res.success) {
                     console.log(res);
                     setLoginUser(() => res.data);
