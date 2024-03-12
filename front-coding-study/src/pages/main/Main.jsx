@@ -15,6 +15,7 @@ const Main = () => {
                 const res = response.data;
 
                 // res.success가 true일 경우, 로그인 사용자 데이터를 설정
+                //commit test
                 if (res.success) {
                     console.log(res);
                     setLoginUser(() => res.data);
@@ -53,9 +54,10 @@ const Main = () => {
         <>
             <h1>메인 페이지</h1>
             <div>로그인 유저 정보</div>
-            <div>username: {loginUser.username}</div>
+            <div>username: {loginUser.email}</div>
             <div>name: {loginUser.name}</div>
-            <br />
+            <div>name: {loginUser.toString()}</div>
+            <br/>
             <button onClick={logout}>로그아웃</button>
         </>
     )

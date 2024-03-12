@@ -5,10 +5,8 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.dongjae.dev.effectivecodingstudy.application.exceptions.InvalidTokenException;
 import com.dongjae.dev.effectivecodingstudy.domain.Token;
 import com.dongjae.dev.effectivecodingstudy.domain.UserId;
-import com.dongjae.dev.effectivecodingstudy.dto.TokenDto;
 import com.dongjae.dev.effectivecodingstudy.dto.response.TokenResponse;
 import com.dongjae.dev.effectivecodingstudy.repository.TokenRepository;
-import com.dongjae.dev.effectivecodingstudy.utils.TokenGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,22 +53,16 @@ public class TokenService {
         }
     }
 
-    public String getOrCreateRefreshToken(String username, UserId userId) {
-        // findByUsername 메서드가 Optional<Token>을 반환한다고 가정
-        return tokenRepository.findByUsername(username)
-                .map(Token::getToken) // Token 객체에서 토큰 문자열 추출
+    public String getOrCreateRefreshToken(UserId userId) {
+        return tokenRepository.findById(userId)
+                .map(Token::getToken)
                 .orElseGet(() -> {
-                    // 토큰 문자열이 없는 경우 새로운 토큰 생성 및 저장
+                    // 토큰 문자열이 없는 경우 새로운 Refresh 토큰 생성 및 저장
                     String newToken = tokenGenerator.generateRefreshToken(userId.toString());
-                    Token refreshToken = new Token(username, newToken);
+                    Token refreshToken = new Token(userId, newToken);
                     tokenRepository.save(refreshToken); // 새로운 토큰 저장
                     return newToken; // 저장된 새 토큰 반환
                 });
-    }
-
-
-    private Token toEntity(TokenDto tokenDto) {
-        return new Token(tokenDto.getUsername(), tokenDto.getToken());
     }
 }
 

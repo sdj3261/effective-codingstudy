@@ -1,16 +1,16 @@
 package com.dongjae.dev.effectivecodingstudy.application.user;
 
 import com.dongjae.dev.effectivecodingstudy.application.exceptions.UserAlreadyExistsException;
+import com.dongjae.dev.effectivecodingstudy.common.enums.Const;
 import com.dongjae.dev.effectivecodingstudy.domain.User;
 import com.dongjae.dev.effectivecodingstudy.domain.UserId;
 import com.dongjae.dev.effectivecodingstudy.dto.response.SignupResponse;
-import com.dongjae.dev.effectivecodingstudy.infrastructure.UserDetailsDao;
-import com.dongjae.dev.effectivecodingstudy.repository.UserQueryRepository;
 import com.dongjae.dev.effectivecodingstudy.repository.UserRepository;
-import com.dongjae.dev.effectivecodingstudy.utils.TokenGenerator;
+import com.dongjae.dev.effectivecodingstudy.security.TokenGenerator;
 import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import static com.dongjae.dev.effectivecodingstudy.common.enums.Const.RoleType;
 
 @Service
 @Transactional
@@ -27,8 +27,8 @@ public class SignupService {
         this.userRepository = userRepository;
     }
 
-    public SignupResponse signup(String username, String password) {
-        userRepository.findByUsername(username)
+    public SignupResponse signup(String email, String password) {
+        userRepository.findByEmail(email)
                 .ifPresent(u -> {
                     throw new UserAlreadyExistsException("User already exists");
                 });
@@ -37,7 +37,7 @@ public class SignupService {
         UserId userId = UserId.generate();
         User user = User.builder()
                 .userId(userId)
-                .username(username)
+                .Role(RoleType.GUEST)
                 .password(encodedPassword)
                 .build();
 
@@ -45,7 +45,6 @@ public class SignupService {
         String accessToken = tokenGenerator.generateAccessToken(userId.toString());
 
         return SignupResponse.builder().
-                username(username).
                 accessToken(accessToken).
                 build();
     }

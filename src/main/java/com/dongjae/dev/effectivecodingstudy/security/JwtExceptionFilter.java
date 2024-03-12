@@ -2,9 +2,10 @@ package com.dongjae.dev.effectivecodingstudy.security;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
-import com.dongjae.dev.effectivecodingstudy.common.ErrorCode;
+import com.dongjae.dev.effectivecodingstudy.common.enums.ErrorCode;
 import com.dongjae.dev.effectivecodingstudy.common.model.BaseResponse;
 import com.dongjae.dev.effectivecodingstudy.common.model.ErrorResponse;
+import com.dongjae.dev.effectivecodingstudy.utils.ErrorResponseUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -43,7 +44,7 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
     public void setErrorResponse(HttpServletResponse response, String msg) throws IOException {
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType("application/json; charset=UTF-8");
-        BaseResponse<ErrorResponse> baseResponse = BaseResponse.failure(ErrorCode.LOGOUT_INDUCED.getCode(),msg,null);
+        BaseResponse<ErrorResponse> baseResponse = ErrorResponseUtil.errorResponse(msg,ErrorCode.TOKEN_ERROR);
         response.getWriter().write(objectMapper.writeValueAsString(baseResponse));
     }
 }

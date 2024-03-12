@@ -1,5 +1,6 @@
 package com.dongjae.dev.effectivecodingstudy.common.model;
 
+import com.dongjae.dev.effectivecodingstudy.common.enums.ErrorCode;
 import lombok.*;
 
 @Getter
@@ -20,12 +21,7 @@ public class BaseResponse<T> {
         return new BaseResponse<>(true, data);
     }
 
-    public static BaseResponse<ErrorResponse> failure(String errorCode, String message, String details) {
-        ErrorResponse errorResponse = ErrorResponse.builder()
-                .errorCode(errorCode)
-                .message(message)
-                .details(details)
-                .build();
+    public static BaseResponse<ErrorResponse> failure(ErrorResponse errorResponse) {
         return new BaseResponse<>(false, errorResponse);
     }
 
